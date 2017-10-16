@@ -1,34 +1,38 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using EndWorldGeneratorApp.Views;
 
 using Xamarin.Forms;
+using Xamarin.Forms.Xaml;
 
+[assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 namespace EndWorldGeneratorApp
 {
 	public partial class App : Application
 	{
-		public App ()
+        public App()
 		{
 			InitializeComponent();
 
-			MainPage = new EndWorldGeneratorApp.MainPage();
+			SetMainPage();
 		}
 
-		protected override void OnStart ()
+		public static void SetMainPage()
 		{
-			// Handle when your app starts
-		}
-
-		protected override void OnSleep ()
-		{
-			// Handle when your app sleeps
-		}
-
-		protected override void OnResume ()
-		{
-			// Handle when your app resumes
-		}
+            Current.MainPage = new TabbedPage
+            {
+                Children =
+                {
+                    new NavigationPage(new ItemsPage())
+                    {
+                        Title = "Browse",
+                        Icon = Device.OnPlatform<string>("tab_feed.png",null,null)
+                    },
+                    new NavigationPage(new AboutPage())
+                    {
+                        Title = "About",
+                        Icon = Device.OnPlatform<string>("tab_about.png",null,null)
+                    },
+                }
+            };
+        }
 	}
 }
